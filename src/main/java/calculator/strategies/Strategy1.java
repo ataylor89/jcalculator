@@ -16,7 +16,7 @@ public class Strategy1 extends AbstractStrategy {
         return evalPostfix(postfix);
     }
 
-    private List<String> convertToPostfix(List<String> tokens) {
+    public List<String> convertToPostfix(List<String> tokens) {
         Deque<String> stack = new ArrayDeque<>();
         List<String> result = new ArrayList<>();
         for (String token : tokens) {
@@ -47,7 +47,7 @@ public class Strategy1 extends AbstractStrategy {
         return result;
     }
 
-    private double evalPostfix(List<String> tokens) {
+    public double evalPostfix(List<String> tokens) {
         Deque<Double> stack = new ArrayDeque<>();
         for (String token : tokens) {
             if (isNumber(token)) {

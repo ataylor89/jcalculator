@@ -14,7 +14,7 @@ public abstract class AbstractStrategy {
 
     public abstract double eval(String expression);
 
-    protected List<String> parse(String expression) {
+    public List<String> parse(String expression) {
         List<String> tokens = new ArrayList<>();
         String buffer = "";
         expression = expression.strip();
