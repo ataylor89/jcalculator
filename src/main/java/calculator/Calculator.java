@@ -2,7 +2,6 @@ package calculator;
 
 import calculator.strategies.AbstractStrategy;
 import calculator.strategies.StrategyFactory;
-import calculator.strategies.Strategy1;
 import calculator.exceptions.InvalidExpression;
 import calculator.exceptions.InvalidStrategy;
 import java.io.Console;
