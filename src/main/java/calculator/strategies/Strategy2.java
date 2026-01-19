@@ -65,10 +65,10 @@ public class Strategy2 implements Strategy {
             if (parser.isNumber(token)) {
                 operands.push(Double.parseDouble(token));
             }
-            else if (token == "(") {
+            else if (token.equals("(")) {
                 operators.push(token);
             }
-            else if (token == ")") {
+            else if (token.equals(")")) {
                 while (operators.size() > 0 && !operators.peek().equals("(")) {
                     performOperation(operators, operands);
                 }
