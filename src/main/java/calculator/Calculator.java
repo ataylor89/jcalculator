@@ -1,6 +1,6 @@
 package calculator;
 
-import calculator.strategies.AbstractStrategy;
+import calculator.strategies.Strategy;
 import calculator.strategies.StrategyFactory;
 import calculator.exceptions.InvalidExpression;
 import calculator.exceptions.InvalidStrategy;
@@ -16,8 +16,8 @@ public class Calculator {
 
     public void evalAndPrint(String expression, int strategy) {
         try {
-            AbstractStrategy as = StrategyFactory.getStrategy(strategy);
-            double result = as.eval(expression);
+            Strategy s = StrategyFactory.getStrategy(strategy);
+            double result = s.eval(expression);
             if (result % 1 == 0) {
                 System.out.println((int) result);
             }

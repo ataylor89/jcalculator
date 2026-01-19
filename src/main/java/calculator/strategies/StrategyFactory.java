@@ -4,7 +4,7 @@ import calculator.exceptions.InvalidStrategy;
 
 public class StrategyFactory {
     
-    public static AbstractStrategy getStrategy(int strategy) {
+    public static Strategy getStrategy(int strategy) {
         switch (strategy) {
             case 1:
                 return new Strategy1();

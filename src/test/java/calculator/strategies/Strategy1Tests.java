@@ -1,6 +1,6 @@
 package calculator.strategies;
 
-import calculator.strategies.Strategy1;
+import calculator.Parser;
 import calculator.exceptions.InvalidExpression;
 import java.util.Arrays;
 import java.util.List;
@@ -12,10 +12,12 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class Strategy1Tests {
 
+    private Parser parser;
     private Strategy1 strategy;
 
     @BeforeEach
     public void setUp() {
+        parser = new Parser();
         strategy = new Strategy1();
     }
 
@@ -38,7 +40,7 @@ public class Strategy1Tests {
     @ParameterizedTest
     @CsvFileSource(resources = "/infix_to_postfix.csv")
     public void testInfixToPostfix(String input, String expected) {
-        List<String> tokens = strategy.parse(input);
+        List<String> tokens = parser.parse(input);
         List<String> postfix = strategy.convertToPostfix(tokens);
         List<String> expectedResult = Arrays.asList(expected.split(" "));
         assertEquals(postfix, expectedResult);

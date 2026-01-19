@@ -1,17 +1,23 @@
 package calculator.strategies;
 
-import calculator.strategies.AbstractStrategy;
+import calculator.Parser;
 import calculator.exceptions.InvalidExpression;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
 
-public class Strategy1 extends AbstractStrategy {
+public class Strategy1 implements Strategy {
+
+    private Parser parser;
+
+    public Strategy1() {
+        parser = new Parser();
+    }
 
     @Override
     public double eval(String expression) {
-        List<String> tokens = parse(expression);
+        List<String> tokens = parser.parse(expression);
         List<String> postfix = convertToPostfix(tokens);
         return evalPostfix(postfix);
     }
@@ -20,7 +26,7 @@ public class Strategy1 extends AbstractStrategy {
         Deque<String> stack = new ArrayDeque<>();
         List<String> result = new ArrayList<>();
         for (String token : tokens) {
-            if (isNumber(token)) {
+            if (parser.isNumber(token)) {
                 result.add(token);
             }
             else if (token.equals("(")) {
@@ -32,10 +38,11 @@ public class Strategy1 extends AbstractStrategy {
                 }
                 stack.pop();
             }
-            else if (isOperator(token)) {
-                boolean isLeftAssoc = isLeftAssociative(token);
-                while (stack.size() > 0 && !stack.peek().equals("(") && 
-                        (precedence(stack.peek()) > precedence(token) || (precedence(stack.peek()) == precedence(token) && isLeftAssoc))) {
+            else if (parser.isOperator(token)) {
+                boolean isLeftAssoc = parser.isLeftAssociative(token);
+                while (stack.size() > 0 && !stack.peek().equals("(") &&
+                        (parser.precedence(stack.peek()) > parser.precedence(token) ||
+                        (parser.precedence(stack.peek()) == parser.precedence(token) && isLeftAssoc))) {
                     result.add(stack.pop());
                 }
                 stack.push(token);
@@ -50,7 +57,7 @@ public class Strategy1 extends AbstractStrategy {
     public double evalPostfix(List<String> tokens) {
         Deque<Double> stack = new ArrayDeque<>();
         for (String token : tokens) {
-            if (isNumber(token)) {
+            if (parser.isNumber(token)) {
                 stack.push(Double.parseDouble(token));
             }
             else if (token.equals("_")) {

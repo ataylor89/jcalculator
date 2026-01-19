@@ -1,14 +1,21 @@
 package calculator.strategies;
 
+import calculator.Parser;
 import calculator.exceptions.InvalidExpression;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Strategy3 extends AbstractStrategy {
+public class Strategy3 implements Strategy {
     
+    private Parser parser;
+
+    public Strategy3() {
+        parser = new Parser();
+    }
+
     @Override
     public double eval(String expression) {
-        List<String> tokens = parse(expression);
+        List<String> tokens = parser.parse(expression);
         return simplify(tokens);
     }
 
@@ -31,7 +38,7 @@ public class Strategy3 extends AbstractStrategy {
                 tokens.remove(i+1);
                 return next(tokens);
             }
-            else if (isNumber(token)) {
+            else if (parser.isNumber(token)) {
                 continue;
             }
             else if (token.equals("(")) {
@@ -42,9 +49,9 @@ public class Strategy3 extends AbstractStrategy {
                 nestedness -= 1;
                 continue;
             }
-            else if (isOperator(token)) {
-                int priority = precedence(token) + 3 * nestedness;
-                boolean isRightAssoc = isRightAssociative(token);
+            else if (parser.isOperator(token)) {
+                int priority = parser.precedence(token) + 3 * nestedness;
+                boolean isRightAssoc = parser.isRightAssociative(token);
                 if (priority > highestPriority || (priority == highestPriority && isRightAssoc)) {
                     highestPriority = priority;
                     index = i;
@@ -65,7 +72,7 @@ public class Strategy3 extends AbstractStrategy {
 
             String operand = tokens.get(index + 1);
 
-            if (!isNumber(operand)) {
+            if (!parser.isNumber(operand)) {
                 throw new InvalidExpression("The " + operator + " operation has an invalid operand");
             }
         }
@@ -77,7 +84,7 @@ public class Strategy3 extends AbstractStrategy {
             String operand1 = tokens.get(index - 1);
             String operand2 = tokens.get(index + 1);
 
-            if (!isNumber(operand1) || !isNumber(operand2)) {
+            if (!parser.isNumber(operand1) || !parser.isNumber(operand2)) {
                 throw new InvalidExpression("The " + operator + " operation has one or more invalid operands");
             }
 
@@ -88,7 +95,7 @@ public class Strategy3 extends AbstractStrategy {
     }
 
     private double simplify(List<String> tokens) {
-        if (tokens.size() == 1 && isNumber(tokens.get(0))) {
+        if (tokens.size() == 1 && parser.isNumber(tokens.get(0))) {
             return Double.parseDouble(tokens.get(0));
         }
         

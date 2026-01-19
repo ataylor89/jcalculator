@@ -1,18 +1,16 @@
-package calculator.strategies;
+package calculator;
 
 import calculator.exceptions.InvalidExpression;
 import java.util.List;
 import java.util.ArrayList;
 
-public abstract class AbstractStrategy {
+public class Parser {
 
-    protected String digits = "0123456789";
-    protected String operators = "+-*/_^";
-    protected String parentheses = "()";
-    protected String leftAssociativeOperators = "+-*/";
-    protected String rightAssociativeOperators = "^_";
-
-    public abstract double eval(String expression);
+    private String digits = "0123456789";
+    private String operators = "+-*/_^";
+    private String parentheses = "()";
+    private String leftAssociativeOperators = "+-*/";
+    private String rightAssociativeOperators = "^_";
 
     public List<String> parse(String expression) {
         List<String> tokens = new ArrayList<>();
@@ -71,31 +69,31 @@ public abstract class AbstractStrategy {
         return tokens;
     }
 
-    protected boolean isDigit(char ch) {
+    public boolean isDigit(char ch) {
         return digits.indexOf(ch) >= 0;
     }
 
-    protected boolean isDigit(String s) {
+    public boolean isDigit(String s) {
         return digits.indexOf(s) >= 0;
     }
 
-    protected boolean isOperator(char ch) {
+    public boolean isOperator(char ch) {
         return operators.indexOf(ch) >= 0;
     }
 
-    protected boolean isOperator(String s) {
+    public boolean isOperator(String s) {
         return operators.indexOf(s) >= 0;
     }
 
-    protected boolean isParenthesis(char ch) {
+    public boolean isParenthesis(char ch) {
         return parentheses.indexOf(ch) >= 0;
     }
 
-    protected boolean isParenthesis(String s) {
+    public boolean isParenthesis(String s) {
         return parentheses.indexOf(s) >= 0;
     }
 
-    protected boolean isNumber(String s) {
+    public boolean isNumber(String s) {
         try {
             Double.parseDouble(s);
             return true;
@@ -104,27 +102,27 @@ public abstract class AbstractStrategy {
         }
     }
 
-    protected boolean isLeftAssociative(char ch) {
+    public boolean isLeftAssociative(char ch) {
         return leftAssociativeOperators.indexOf(ch) >= 0;
     }
 
-    protected boolean isLeftAssociative(String s) {
+    public boolean isLeftAssociative(String s) {
         return leftAssociativeOperators.indexOf(s) >= 0;
     }
 
-    protected boolean isRightAssociative(char ch) {
+    public boolean isRightAssociative(char ch) {
         return rightAssociativeOperators.indexOf(ch) >= 0;
     }
 
-    protected boolean isRightAssociative(String s) {
+    public boolean isRightAssociative(String s) {
         return rightAssociativeOperators.indexOf(s) >= 0;
     }
 
-    protected int precedence(char ch) {
+    public int precedence(char ch) {
         return precedence(String.valueOf(ch));
     }
 
-    protected int precedence(String s) {
+    public int precedence(String s) {
         switch (s) {
             case "+":
                 return 0;
